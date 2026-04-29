@@ -1,0 +1,6 @@
+{
+  "topic": "How machine learning is transforming healthcare",
+  "expected_facts": ["diagnosis", "patients", "data"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["machine learning replaces all doctors"]
+}

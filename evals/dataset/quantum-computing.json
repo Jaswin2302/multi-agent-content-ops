@@ -1,0 +1,6 @@
+{
+  "topic": "Quantum computing breakthroughs in 2024",
+  "expected_facts": ["qubits", "quantum", "computing"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["quantum computers are available for consumers"]
+}

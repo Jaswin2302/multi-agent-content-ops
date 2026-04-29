@@ -1,0 +1,6 @@
+{
+  "topic": "The impact of AI on software engineering",
+  "expected_facts": ["code", "developers", "automation"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["AI will replace all programmers by 2025"]
+}

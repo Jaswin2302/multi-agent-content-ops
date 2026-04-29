@@ -1,0 +1,6 @@
+{
+  "topic": "The rise of electric vehicles and their impact",
+  "expected_facts": ["battery", "charging", "emissions"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["electric vehicles produce more pollution than gas cars"]
+}

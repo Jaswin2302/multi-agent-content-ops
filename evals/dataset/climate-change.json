@@ -1,0 +1,6 @@
+{
+  "topic": "The latest advancements in climate change solutions",
+  "expected_facts": ["carbon", "renewable", "energy"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["climate change is not real"]
+}
