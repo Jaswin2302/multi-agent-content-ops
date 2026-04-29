@@ -53,12 +53,13 @@ npm install
 
 ### 3. Set up environment variables
 
-Create a `.env.local` file in the root:
-ANTHROPIC_API_KEY=your_key
-TAVILY_API_KEY=your_key
-EXA_API_KEY=your_key
-NEXT_PUBLIC_SUPABASE_URL=your_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
+Create a `.env.local` file in the root and add the following keys:
+
+- `ANTHROPIC_API_KEY` — from console.anthropic.com
+- `TAVILY_API_KEY` — from app.tavily.com
+- `EXA_API_KEY` — from exa.ai
+- `NEXT_PUBLIC_SUPABASE_URL` — from your Supabase project settings
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` — from your Supabase project settings
 
 ### 4. Run the app
 
