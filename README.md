@@ -4,6 +4,8 @@ A production-grade multi-agent content generation system powered by Claude AI. A
 
 ![Agents](https://img.shields.io/badge/Agents-5-blue) ![Pass Rate](https://img.shields.io/badge/Eval%20Pass%20Rate-100%25-green) ![Accuracy](https://img.shields.io/badge/Avg%20Accuracy-7.6%2F10-green)
 
+🔗 **[Live Demo](https://multi-agent-content-6pa4ir900.vercel.app/dashboard)**
+
 ## Architecture
 
 The pipeline runs as a directed graph with conditional routing. The Fact Checker can route back to the Writer for revisions or all the way back to the Researcher if the research itself is insufficient. The Supervisor acts as a final judge and can trigger additional rewrite loops up to a maximum of 3 iterations before escalating to human review.
