@@ -1,15 +1,17 @@
-markdown# Multi-Agent Content Ops Pipeline
+# Multi-Agent Content Ops Pipeline
 
 A production-grade multi-agent content generation system powered by Claude AI. Automatically researches, writes, fact-checks, polishes, and scores articles using a 5-agent pipeline with live visualization.
 
-![Pipeline DAG](https://img.shields.io/badge/Agents-5-blue) ![Pass Rate](https://img.shields.io/badge/Eval%20Pass%20Rate-100%25-green) ![Accuracy](https://img.shields.io/badge/Avg%20Accuracy-7.6%2F10-green)
+![Agents](https://img.shields.io/badge/Agents-5-blue) ![Pass Rate](https://img.shields.io/badge/Eval%20Pass%20Rate-100%25-green) ![Accuracy](https://img.shields.io/badge/Avg%20Accuracy-7.6%2F10-green)
 
 ## Architecture
-Researcher → Writer → Fact Checker → Polisher → Supervisor
-↑|                        |
-↑________________________|
 
-### Agents
+The pipeline runs as a directed graph with conditional routing. The Fact Checker can route back to the Writer for revisions or all the way back to the Researcher if the research itself is insufficient. The Supervisor acts as a final judge and can trigger additional rewrite loops up to a maximum of 3 iterations before escalating to human review.
+
+**Researcher → Writer → Fact Checker → Polisher → Supervisor**
+
+## Agents
+
 - **Researcher** — Searches the web using Tavily and Exa, scores source credibility, deduplicates results
 - **Writer** — Writes a structured 600-900 word article strictly grounded in research sources
 - **Fact Checker** — Verifies every claim in parallel using Claude, routes back to Writer or Researcher if accuracy is low
@@ -37,17 +39,20 @@ Researcher → Writer → Fact Checker → Polisher → Supervisor
 ## Getting Started
 
 ### 1. Clone the repo
+
 ```bash
 git clone https://github.com/Jaswin2302/multi-agent-content-ops.git
 cd multi-agent-content-ops
 ```
 
 ### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Set up environment variables
+
 Create a `.env.local` file in the root:
 ANTHROPIC_API_KEY=your_key
 TAVILY_API_KEY=your_key
@@ -55,17 +60,16 @@ EXA_API_KEY=your_key
 NEXT_PUBLIC_SUPABASE_URL=your_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
 
-### 4. Set up Supabase
-Run the SQL migrations in `supabase/migrations.sql` in your Supabase SQL editor.
+### 4. Run the app
 
-### 5. Run the app
 ```bash
 npm run dev
 ```
 
 Visit `http://localhost:3000/dashboard`
 
-### 6. Run the eval harness
+### 5. Run the eval harness
+
 ```bash
 npx tsx --env-file=.env.local evals/harness.ts
 ```
@@ -81,24 +85,3 @@ npx tsx --env-file=.env.local evals/harness.ts
 | Quantum Computing | 8/10 | ✅ PASS |
 
 **Pass rate: 5/5 (100%) — Avg accuracy: 7.6/10**
-
-## Project Structure
-├── agents/
-│   ├── researcher.ts     # Web search + source credibility scoring
-│   ├── writer.ts         # Article generation
-│   ├── fact-checker.ts   # Parallel claim verification
-│   ├── polisher.ts       # Grammar, SEO, reading level
-│   └── supervisor.ts     # LLM-as-judge scoring
-├── lib/
-│   ├── graph.ts          # LangGraph DAG definition
-│   ├── schemas.ts        # Zod schemas for all agent boundaries
-│   ├── supabase.ts       # Database client and queries
-│   └── redis.ts          # Job queue (future)
-├── app/
-│   ├── dashboard/        # React Flow visualizer + live logs
-│   └── api/
-│       └── run-pipeline/ # SSE streaming API route
-└── evals/
-├── harness.ts        # Eval runner
-└── dataset/          # Ground truth test cases
-
