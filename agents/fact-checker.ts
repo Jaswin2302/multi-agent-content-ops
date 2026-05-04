@@ -84,16 +84,29 @@ export async function runFactChecker(
   research: z.infer<typeof ResearchOutput>
 ): Promise<z.infer<typeof FactCheckOutput>> {
 
-  // ── Verify all claims in parallel ────────────────────
-  const verificationResults = await Promise.all(
-    article.claims_made.map(claim => verifyClaim(claim, research.sources))
-  )
+  // ── Cap claims at 6 and verify in batches of 3 ───────
+  const claims = article.claims_made.slice(0, 6)
+  const batchSize = 3
+  const verificationResults: { supported: boolean; evidence: string; suggested_fix: string }[] = []
+
+  for (let i = 0; i < claims.length; i += batchSize) {
+    const batch = claims.slice(i, i + batchSize)
+    const batchResults = await Promise.all(
+      batch.map(claim => verifyClaim(claim, research.sources))
+    )
+    verificationResults.push(...batchResults)
+
+    // ── Small delay between batches to avoid rate limits ─
+    if (i + batchSize < claims.length) {
+      await new Promise(resolve => setTimeout(resolve, 2000))
+    }
+  }
 
   // ── Separate verified from disputed ──────────────────
   const verifiedClaims: string[] = []
   const disputedClaims: z.infer<typeof DisputedClaim>[] = []
 
-  article.claims_made.forEach((claim, index) => {
+  claims.forEach((claim, index) => {
     const result = verificationResults[index]
     if (result.supported) {
       verifiedClaims.push(claim)
@@ -107,7 +120,7 @@ export async function runFactChecker(
   })
 
   // ── Calculate accuracy score ──────────────────────────
-  const totalClaims = article.claims_made.length
+  const totalClaims = claims.length
   const accuracyScore = totalClaims > 0
     ? verifiedClaims.length / totalClaims
     : 1
