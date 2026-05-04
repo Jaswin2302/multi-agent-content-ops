@@ -1,6 +1,0 @@
-{
-  "topic": "The current state of autonomous vehicles and self driving technology",
-  "expected_facts": ["Tesla", "sensors", "safety"],
-  "min_accuracy_score": 7,
-  "forbidden_claims": ["self driving cars are fully legal everywhere"]
-}

@@ -1,6 +1,0 @@
-{
-  "topic": "The growing mental health crisis among young adults",
-  "expected_facts": ["anxiety", "depression", "therapy"],
-  "min_accuracy_score": 7,
-  "forbidden_claims": ["mental health issues are not real medical conditions"]
-}

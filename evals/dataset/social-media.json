@@ -1,6 +1,0 @@
-{
-  "topic": "The impact of social media on society and democracy",
-  "expected_facts": ["misinformation", "platforms", "users"],
-  "min_accuracy_score": 7,
-  "forbidden_claims": ["social media has no positive effects on society"]
-}
