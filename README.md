@@ -4,7 +4,7 @@ A production-grade multi-agent content generation system powered by Claude AI. A
 
 ![Agents](https://img.shields.io/badge/Agents-5-blue) ![Pass Rate](https://img.shields.io/badge/Eval%20Pass%20Rate-100%25-green) ![Accuracy](https://img.shields.io/badge/Avg%20Accuracy-7.6%2F10-green)
 
-🔗 **[Live Demo](https://multi-agent-content-6pa4ir900.vercel.app/dashboard)**
+🔗 **[Live Demo](https://multi-agent-content-ops-production.up.railway.app/dashboard)**
 
 ## Architecture
 
