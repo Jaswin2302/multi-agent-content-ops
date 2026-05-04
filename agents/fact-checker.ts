@@ -33,7 +33,7 @@ async function verifyClaim(
     .join("\n")
 
   const response = await anthropic.messages.create({
-    model: "claude-opus-4-5",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 500,
     messages: [{
       role: "user",
@@ -67,7 +67,6 @@ Respond in exactly this format:
   try {
     return JSON.parse(cleaned)
   } catch {
-    // ── If JSON is still broken, extract values manually ─
     const supportedMatch = cleaned.match(/"supported"\s*:\s*(true|false)/)
     const supported = supportedMatch ? supportedMatch[1] === "true" : true
 
