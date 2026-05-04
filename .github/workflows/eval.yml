@@ -3,8 +3,10 @@ name: Eval Harness
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+    paths:
+      - 'agents/**'
+      - 'lib/graph.ts'
+      - 'lib/schemas.ts'
 
 jobs:
   eval:
