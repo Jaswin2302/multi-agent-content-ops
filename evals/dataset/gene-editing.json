@@ -1,0 +1,6 @@
+{
+  "topic": "CRISPR gene editing and its impact on medicine",
+  "expected_facts": ["CRISPR", "DNA", "disease"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["CRISPR has no ethical concerns"]
+}

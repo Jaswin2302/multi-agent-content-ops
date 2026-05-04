@@ -1,0 +1,6 @@
+{
+  "topic": "The future of renewable energy and solar power",
+  "expected_facts": ["solar", "wind", "carbon"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["renewable energy cannot power entire cities"]
+}

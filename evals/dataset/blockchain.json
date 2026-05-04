@@ -1,0 +1,6 @@
+{
+  "topic": "How blockchain is transforming supply chain management",
+  "expected_facts": ["transparency", "supply chain", "decentralized"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["blockchain is only used for cryptocurrency"]
+}

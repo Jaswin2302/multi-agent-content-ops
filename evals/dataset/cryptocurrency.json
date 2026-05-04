@@ -1,0 +1,6 @@
+{
+  "topic": "The future of cryptocurrency and digital payments",
+  "expected_facts": ["Bitcoin", "blockchain", "digital"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["cryptocurrency is completely unregulated worldwide"]
+}

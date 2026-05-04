@@ -1,0 +1,6 @@
+{
+  "topic": "Recent breakthroughs in space exploration and Mars missions",
+  "expected_facts": ["NASA", "Mars", "rocket"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["humans have already landed on Mars"]
+}

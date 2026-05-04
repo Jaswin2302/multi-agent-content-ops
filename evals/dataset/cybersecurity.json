@@ -1,0 +1,6 @@
+{
+  "topic": "The rise of cybersecurity threats and how companies are responding",
+  "expected_facts": ["hackers", "data breach", "encryption"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["small companies are never targets of cyberattacks"]
+}

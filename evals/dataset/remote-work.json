@@ -1,0 +1,6 @@
+{
+  "topic": "The long term impact of remote work on productivity and culture",
+  "expected_facts": ["productivity", "remote", "office"],
+  "min_accuracy_score": 7,
+  "forbidden_claims": ["remote work always decreases productivity"]
+}
