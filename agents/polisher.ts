@@ -41,6 +41,38 @@ function generateSlug(title: string): string {
     .trim()
 }
 
+// ── Strip code fences from Claude response ───────────────
+function stripCodeFences(text: string): string {
+  return text
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim()
+}
+
+// ── Safe JSON parse with fallback ────────────────────────
+function safeParseJSON(text: string, fallback: any): any {
+  try {
+    return JSON.parse(text)
+  } catch {
+    // ── Try to extract fields manually if JSON is broken ─
+    const titleMatch = text.match(/"title"\s*:\s*"([^"]*)"/)
+    const metaMatch = text.match(/"meta_description"\s*:\s*"([^"]*)"/)
+    const seoMatch = text.match(/"seo_title"\s*:\s*"([^"]*)"/)
+
+    if (titleMatch) {
+      return {
+        title: titleMatch[1] || fallback.title,
+        body: fallback.body,
+        meta_description: metaMatch ? metaMatch[1] : "",
+        seo_title: seoMatch ? seoMatch[1] : titleMatch[1] || fallback.title
+      }
+    }
+
+    return fallback
+  }
+}
+
 // ── Main polisher function ───────────────────────────────
 export async function runPolisher(
   article: z.infer<typeof WriterOutput>
@@ -61,14 +93,17 @@ YOUR TASKS:
 4. Write a meta description (150-160 characters) that summarizes the article
 5. Do NOT add, remove, or change any factual claims
 
+IMPORTANT: Respond ONLY with raw JSON. No code fences, no markdown, no extra text.
+Do not use special characters or unescaped quotes inside JSON string values.
+
 ORIGINAL ARTICLE TITLE: ${article.title}
 ORIGINAL ARTICLE BODY:
 ${article.body}
 
-Respond in this exact JSON format with no extra text:
+Respond in this exact JSON format:
 {
   "title": "Polished article title here",
-  "body": "Full polished article text here...",
+  "body": "Full polished article text here",
   "meta_description": "150-160 character meta description here",
   "seo_title": "SEO optimized title 50-60 chars"
 }`
@@ -80,28 +115,30 @@ Respond in this exact JSON format with no extra text:
     ? response.content[0].text
     : ""
 
-  const cleanText = rawText
-    .replace(/^```json\n?/, "")
-    .replace(/^```\n?/, "")
-    .replace(/\n?```$/, "")
-    .trim()
+  const cleaned = stripCodeFences(rawText)
 
-  const parsed = JSON.parse(cleanText)
+  // ── Use safe parser with fallback to original article ─
+  const parsed = safeParseJSON(cleaned, {
+    title: article.title,
+    body: article.body,
+    meta_description: "",
+    seo_title: article.title
+  })
 
   // ── Calculate reading level locally ──────────────────
-  const readingLevel = calculateReadingLevel(parsed.body)
+  const readingLevel = calculateReadingLevel(parsed.body || article.body)
 
   // ── Generate slug locally ─────────────────────────────
-  const slug = generateSlug(parsed.title)
+  const slug = generateSlug(parsed.title || article.title)
 
   // ── Build and validate output ─────────────────────────
   const output = PolisherOutput.parse({
-    title: parsed.title,
-    body: parsed.body,
-    meta_description: parsed.meta_description,
+    title: parsed.title || article.title,
+    body: parsed.body || article.body,
+    meta_description: parsed.meta_description || "",
     slug,
     reading_level: readingLevel,
-    seo_title: parsed.seo_title
+    seo_title: parsed.seo_title || parsed.title || article.title
   })
 
   return output
